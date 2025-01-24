@@ -1,3 +1,25 @@
+<?php
+session_start();
+require_once "api/db.php";
+
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $loggedUser = login($email, $password);
+
+    if ($loggedUser !== false) {
+        $_SESSION["user"] = $loggedUser;
+        header("Location: index.php");
+        exit();
+    }
+    else{
+        $message = "Špatné přihlašovací údaje";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="cs"></html>
 <head>
@@ -11,7 +33,8 @@
     <div class="flex items-center justify-center min-h-screen">
         <div class="w-full max-w-md p-8 space-y-3 bg-white rounded-lg shadow-md">
             <h1 class="text-2xl font-bold text-center">Přihlášení</h1>
-            <form action="login.php" method="POST" class="space-y-6">
+            <div class="text-center text-red-500"><?php echo $message; ?></div>
+            <form method="POST" class="space-y-6">
                 <div class="space-y-1">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" name="email" id="email" required class="w-full px-4 py-2 border rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-300">

@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="cs">
 
@@ -16,12 +20,18 @@
             <nav>
                 <a href="../index.php" class="ml-4 text-indigo-600 hover:underline">Domů</a>
                 <a href="#" class="ml-4 text-indigo-600 hover:underline">Hledání</a>
+                <?php if (isset($_SESSION["user"])): ?>
                 <a href="../add_post.php" class="ml-4 text-indigo-600 hover:underline">Přidat Příspěvek</a>
+                <?php endif; ?>
             </nav>
-            <div>
-                <a href="../login.php" class="text-indigo-600 hover:underline">Přihlášení</a>
-                <a href="../register.php" class="ml-4 text-indigo-600 hover:underline">Registrace</a>
-            </div>
+            <?php if (isset($_SESSION["user"])): ?>
+                <a href="../scripts/logout.php" class="text-indigo-600 hover:underline">Odhlásit se</a>
+            <?php else: ?>
+                <div>
+                    <a href="../login.php" class="text-indigo-600 hover:underline">Přihlášení</a>
+                    <a href="../register.php" class="ml-4 text-indigo-600 hover:underline">Registrace</a>
+                </div>
+            <?php endif; ?>
         </div>
     </header>
     <main class="container mx-auto p-4">
